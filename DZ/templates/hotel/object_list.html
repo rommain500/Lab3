@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block body %}
+
+{% for item in object_list %}
+    <div class="row" style="border: dashed 1px; margin: 5px; padding: 5px;">
+        <a href="{% url 'hotel_info' item.pk %}">
+            <h4>{{ item.name }}</h4>
+        </a>
+        <p>{{ item.description }}</p>
+        <!--{% for pic in item.pictures.all %}-->
+            <!--<img src="{% get_media_prefix %}{{ pic.path }}" style="max-width: 100px;"/>-->
+        <!--{% endfor %}-->
+        <form class="form" id="reserve_{{ item.pk }}">
+            {{ reserve_form.as_p }}
+            <input class="btn btn-small btn-success" type="submit" value="Reserve" onclick="reserve({{ item.pk }})"/>
+        </form>
+    </div>
+{% endfor %}
+
+{% endblock %}
+
+
+{% block custom_js %}
+<script>
+var reserve = function(hotel_id) {
+    event.preventDefault();
+    $.post(
+        "{% url 'reserve' %}",
+        {
+            hotel: hotel_id,
+            client: {{ request.user.pk }},
+            date_start: $('#reserve_' + hotel_id + ' input#id_date_start').val(),
+            date_end: $('#reserve_' + hotel_id + ' input#id_date_end').val(),
+            person_amount: $('#reserve_' + hotel_id + ' input#id_person_amount').val(),
+            csrfmiddlewaretoken: $.cookie('csrftoken')
+        },
+        function (result) {
+            console.log(result);
+        }
+    )
+}
+</script>
+{% endblock %}

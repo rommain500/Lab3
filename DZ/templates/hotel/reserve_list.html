@@ -1,0 +1,10 @@
+{% extends 'base/base.html' %}
+
+{% block body %}
+{% for item in object_list %}
+    <div>
+        <p>Резерв в {{ item.hotel.name }} с {{ item.date_start }} до {{ item.date_end }}</p>
+        <p>На {{ item.person_amount }} персон</p>
+    </div>
+{% endfor %}
+{% endblock %}

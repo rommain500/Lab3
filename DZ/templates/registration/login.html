@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+
+{% block body %}
+
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+    {{ form }}
+    </table>
+    <input type="submit" value="Login"/>
+</form>
+
+<hr/>
+
+<h4>По коду из смс</h4>
+
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input name="sms_code">
+    <input type="submit" value="Register"/>
+</form>
+
+{% endblock %}

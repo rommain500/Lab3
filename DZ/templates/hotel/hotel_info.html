@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+
+{% block body %}
+<div class="row">
+{% if object %}
+    Название - {{ object.name }}
+{% else %}
+    Такого отеля не существует
+{% endif %}
+</div>
+{% endblock %}
